@@ -1,0 +1,28 @@
+{% comment %}
+  Renders a swatch input component.
+{% endcomment %}
+
+<input
+  type="{{ type | default: 'radio' }}"
+  id="{{ id }}"
+  name="{{ name }}"
+  value="{{ value }}"
+  form="{{ product_form_id }}"
+  class="swatch-input__input{% if visually_disabled %} visually-disabled{% endif %}"
+  {% if checked %}
+    checked
+  {% endif %}
+  {% if disabled %}
+    disabled
+  {% endif %}
+  {% if additional_props %}
+    {{ additional_props }}
+  {% endif %}
+>
+<label
+  for="{{ id }}"
+  title="{{ value }}"
+  class="swatch-input__label{% if shape == 'square' %} swatch-input__label--square{% endif %} swatch-as-pill"
+>
+  <span class="swatch-pill-text">{{ value }}</span>
+</label>
