@@ -3691,29 +3691,48 @@ main,
 }
 
 /* === ANNOUNCEMENT BAR === */
-/* Layered: a vertical fade toward the header's black on top of the horizontal
-   color sweep, so the bar eases into the header below instead of cutting
-   into it with a hard seam. */
+/* Same near-black background as the header, not a separate bright block,
+   so there's no seam — just a thin gradient accent line and gradient text. */
 .announcement-bar-section .shopify-section,
 .utility-bar,
 .utility-bar__grid,
 .announcement-bar {
-  background:
-    linear-gradient(to bottom, rgba(6, 6, 8, 0) 0%, rgba(6, 6, 8, 0.6) 100%),
-    linear-gradient(90deg, #4f1db3, #7b2fff, #4f1db3) !important;
+  background: rgb(6, 6, 8) !important;
   color: #fff !important;
-  border-bottom: none !important;
-  box-shadow: none !important;
+  border-bottom: 1px solid rgba(var(--glow-purple-deep), 0.3) !important;
+  box-shadow: 0 1px 0 rgba(var(--glow-cyan), 0.15) !important;
 }
 
 .announcement-bar__message,
 .announcement-bar__message p,
 .announcement-bar__link {
-  color: #fff !important;
+  background: linear-gradient(90deg, rgb(var(--glow-cyan)), rgb(var(--glow-purple)), rgb(var(--glow-cyan))) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  animation: announcementShimmer 6s linear infinite !important;
   letter-spacing: 0.14rem !important;
   text-transform: uppercase !important;
   font-size: 1.2rem !important;
   font-weight: 600 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-bar__message,
+  .announcement-bar__message p,
+  .announcement-bar__link {
+    animation: none !important;
+  }
+}
+
+@keyframes announcementShimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
 }
 
 /* === БАННЕР / HERO === */
