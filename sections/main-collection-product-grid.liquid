@@ -22,6 +22,12 @@
   <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
+{%- if section.settings.enable_gsap_card_reveal -%}
+  <script src="{{ 'vendor-gsap.min.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'vendor-gsap-scrolltrigger.min.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'card-reveal-gsap.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -159,8 +165,10 @@
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
                 <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {% if settings.animations_reveal_on_scroll %}
+                  class="grid__item{% if settings.animations_reveal_on_scroll and section.settings.enable_gsap_card_reveal == false %} scroll-trigger animate--slide-in{% endif %}"
+                  {% if section.settings.enable_gsap_card_reveal %}
+                    data-gsap-card
+                  {% elsif settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
@@ -343,6 +351,17 @@
           "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
         }
       ]
+    },
+    {
+      "type": "header",
+      "content": "Card animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gsap_card_reveal",
+      "default": false,
+      "label": "Use GSAP stagger reveal for cards",
+      "info": "Replaces the standard scroll-reveal with a GSAP ScrollTrigger stagger animation for this grid."
     },
     {
       "type": "header",

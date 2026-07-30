@@ -49,7 +49,7 @@
         <div class="swiper-wrapper">
           {%- if section.settings.collection.products.size > 0 -%}
             {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-              <div class="swiper-slide">
+              <div class="swiper-slide" data-gsap-card>
                 {% render 'card-product',
                   card_product: product,
                   media_aspect_ratio: 'portrait',
@@ -83,6 +83,9 @@
 
 <script src="{{ 'vendor-swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'featured-carousel.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'vendor-gsap.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'vendor-gsap-scrolltrigger.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'card-reveal-gsap.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
