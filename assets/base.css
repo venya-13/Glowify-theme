@@ -3612,6 +3612,11 @@ details-disclosure > details {
   --color-badge-foreground: 240, 238, 255;
   --color-badge-border: 123, 47, 255;
   --color-secondary-background: 13, 13, 20;
+
+  /* Named glow accents — reuse these, don't introduce new raw hex/rgb values */
+  --glow-purple: 168, 85, 247; /* #a855f7 — accent, glow, gradient-text */
+  --glow-purple-deep: 123, 47, 255; /* #7b2fff — buttons, badges */
+  --glow-cyan: 34, 211, 238; /* #22d3ee — prices, secondary accent */
 }
 
 /* === ГЛОБАЛЬНЫЙ ФОН === */
@@ -3692,12 +3697,18 @@ main,
 .announcement-bar {
   background: linear-gradient(90deg, #4f1db3, #7b2fff, #4f1db3) !important;
   color: #fff !important;
+  border-bottom: 1px solid rgba(var(--glow-cyan), 0.35) !important;
+  box-shadow: 0 1px 12px rgba(var(--glow-purple-deep), 0.35) !important;
 }
 
 .announcement-bar__message,
 .announcement-bar__message p,
 .announcement-bar__link {
   color: #fff !important;
+  letter-spacing: 0.14rem !important;
+  text-transform: uppercase !important;
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
 }
 
 /* === БАННЕР / HERO === */
@@ -3747,14 +3758,15 @@ main,
 .banner__heading .h0,
 .banner__heading .h1,
 .banner__heading .h2 {
-  background: linear-gradient(135deg, #ffffff 40%, #a855f7 100%) !important;
+  background: linear-gradient(135deg, #ffffff 40%, rgb(var(--glow-purple)) 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
   opacity: 1 !important;
   visibility: visible !important;
   text-shadow: none !important;
-  filter: drop-shadow(0 0 30px rgba(123,47,255,0.4)) !important;
+  letter-spacing: -0.01em !important;
+  filter: drop-shadow(0 0 30px rgba(var(--glow-purple-deep), 0.4)) !important;
 }
 
 .banner__text,
@@ -3769,16 +3781,25 @@ h1, h2, h3, h4, h5, h6,
   color: rgb(240, 238, 255) !important;
   opacity: 1 !important;
   visibility: visible !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.15 !important;
 }
 
 /* Section titles с gradient */
 .featured-collection .title,
 .collection__title,
 .title {
-  background: linear-gradient(135deg, #f0eeff 60%, #a855f7 100%) !important;
+  background: linear-gradient(135deg, #f0eeff 60%, rgb(var(--glow-purple)) 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
+}
+
+/* Body copy: calmer line-height for a more premium, less cramped read */
+.rte,
+.banner__text p,
+body {
+  line-height: calc(1 + 0.65 / var(--font-body-scale));
 }
 
 /* === СЕКЦИИ === */
@@ -3804,18 +3825,19 @@ h1, h2, h3, h4, h5, h6,
 .card__inner,
 .product-card-wrapper .card {
   background: linear-gradient(145deg, #0d0d1a, #0a0a14) !important;
-  border: 1px solid rgba(123,47,255,0.12) !important;
+  border: 1px solid rgba(var(--glow-purple-deep), 0.12) !important;
   border-radius: 8px !important;
   transition: all 0.35s cubic-bezier(0.4,0,0.2,1) !important;
 }
 
 .card-wrapper:hover .card--standard .card__inner,
 .card-wrapper:hover .card--card {
-  border-color: rgba(123,47,255,0.45) !important;
+  border-color: rgba(var(--glow-purple-deep), 0.45) !important;
   box-shadow:
-    0 0 0 1px rgba(123,47,255,0.1),
+    0 0 0 1px rgba(var(--glow-purple-deep), 0.1),
     0 20px 60px rgba(0,0,0,0.5),
-    0 0 40px rgba(123,47,255,0.12) !important;
+    0 0 40px rgba(var(--glow-purple-deep), 0.16),
+    0 0 70px rgba(var(--glow-cyan), 0.08) !important;
   transform: translateY(-6px) !important;
 }
 
