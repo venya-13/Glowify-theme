@@ -1,0 +1,226 @@
+{{ 'component-hero-video.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .hero-video-{{ section.id }} {
+    --hero-height: {% case section.settings.height %}{% when 'small' %}45vh{% when 'large' %}92vh{% else %}72vh{% endcase %};
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-video-{{ section.id }} {
+      --hero-height: {% case section.settings.height %}{% when 'small' %}38vh{% when 'large' %}70vh{% else %}56vh{% endcase %};
+    }
+  }
+{%- endstyle -%}
+
+<hero-video-section
+  class="hero-video hero-video-{{ section.id }} color-{{ section.settings.color_scheme }}"
+  data-parallax="{{ section.settings.gsap_parallax }}"
+>
+  <div class="hero-video__media">
+    {%- if section.settings.video != blank -%}
+      {{
+        section.settings.video
+        | video_tag:
+          image_size: '1920x',
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          class: 'hero-video__video',
+          playsinline: true
+      }}
+    {%- elsif section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1920
+        | image_tag:
+          sizes: '100vw',
+          widths: '750, 1000, 1500, 1920, 2400',
+          fetchpriority: 'high',
+          class: 'hero-video__image'
+      }}
+    {%- else -%}
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg hero-video__image' }}
+    {%- endif -%}
+    <div class="hero-video__overlay" style="--hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+  </div>
+
+  <div class="hero-video__content page-width hero-video__content--{{ section.settings.content_position }}">
+    <div class="hero-video__content-inner" data-hero-animate>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            <h2 class="hero-video__heading inline-richtext {{ block.settings.heading_size }}" data-hero-animate-item {{ block.shopify_attributes }}>
+              {{ block.settings.heading }}
+            </h2>
+          {%- when 'subheading' -%}
+            <p class="hero-video__subheading" data-hero-animate-item {{ block.shopify_attributes }}>
+              {{ block.settings.subheading }}
+            </p>
+          {%- when 'button' -%}
+            {%- if block.settings.button_label != blank -%}
+              <a
+                {% if block.settings.button_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.button_link }}"
+                {% endif %}
+                class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+                data-hero-animate-item
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.button_label | escape }}
+              </a>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</hero-video-section>
+
+{%- if section.settings.gsap_parallax -%}
+  <script src="{{ 'vendor-gsap.min.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'vendor-gsap-scrolltrigger.min.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'hero-video.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero (video/image)",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (fallback / video poster)"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background video (optional)",
+      "info": "Autoplays muted and looped. If left blank, the image above is shown instead."
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium",
+      "label": "Section height"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay darkness",
+      "default": 35
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "label": "Content position"
+    },
+    {
+      "type": "checkbox",
+      "id": "gsap_parallax",
+      "label": "Enable parallax + entrance animation",
+      "default": true,
+      "info": "Uses GSAP ScrollTrigger for a subtle parallax on the media and a staggered fade-in on the text. Automatically disabled for visitors who prefer reduced motion."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Light Up Your World",
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            { "value": "h1", "label": "Medium" },
+            { "value": "h0", "label": "Large" },
+            { "value": "hxl", "label": "Extra large" }
+          ],
+          "default": "h0",
+          "label": "Heading size"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "default": "Studio-grade lighting gear for creators",
+          "label": "Subheading"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Shop all",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary",
+          "default": false,
+          "label": "Use outline button style"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero (video/image)",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "subheading" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}
