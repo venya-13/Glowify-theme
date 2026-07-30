@@ -1,0 +1,87 @@
+.featured-carousel {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.featured-carousel__swiper {
+  overflow: visible;
+  padding: 1rem 0 3rem;
+}
+
+.featured-carousel .swiper-slide {
+  height: auto;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.featured-carousel[data-center-mode='true'] .swiper-slide:not(.swiper-slide-active) {
+  transform: scale(0.92);
+  opacity: 0.65;
+}
+
+.featured-carousel .swiper-slide .card-wrapper {
+  height: 100%;
+}
+
+.featured-carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  margin-top: 0.5rem;
+}
+
+.featured-carousel__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--glow-purple-deep, 123, 47, 255), 0.35);
+  background: rgba(var(--color-background), 0.4);
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.featured-carousel__button:hover {
+  border-color: rgba(var(--glow-purple, 168, 85, 247), 0.7);
+  box-shadow: 0 0 24px rgba(var(--glow-purple, 168, 85, 247), 0.35);
+  transform: translateY(-2px);
+}
+
+.featured-carousel__button--prev svg {
+  transform: rotate(90deg);
+}
+
+.featured-carousel__button--next svg {
+  transform: rotate(-90deg);
+}
+
+.featured-carousel__pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.featured-carousel__pagination .swiper-pagination-bullet {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: rgba(var(--color-foreground), 0.25);
+  opacity: 1;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.featured-carousel__pagination .swiper-pagination-bullet-active {
+  background: rgb(var(--glow-purple, 168, 85, 247));
+  box-shadow: 0 0 12px rgba(var(--glow-purple, 168, 85, 247), 0.7);
+  transform: scale(1.15);
+}
+
+@media screen and (max-width: 749px) {
+  .featured-carousel__button {
+    width: 3.8rem;
+    height: 3.8rem;
+  }
+}
