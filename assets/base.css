@@ -3668,12 +3668,11 @@ main,
 .header__menu-item span,
 .header__heading-link,
 .header__heading-link .h2 {
-  color: rgb(240, 238, 255) !important;
+  color: rgba(240, 238, 255, 0.85) !important;
 }
 
 .header__menu-item:hover span {
   color: #a855f7 !important;
-  text-shadow: 0 0 12px rgba(168,85,247,0.6) !important;
 }
 
 .header__icon {
@@ -3688,17 +3687,11 @@ main,
 
 /* === ANNOUNCEMENT BAR === */
 .announcement-bar-section .shopify-section,
+.utility-bar,
 .utility-bar__grid,
 .announcement-bar {
-  background: linear-gradient(90deg, #4f1db3, #7b2fff, #a855f7, #7b2fff, #4f1db3) !important;
-  background-size: 200% auto !important;
-  animation: annGrad 4s linear infinite !important;
+  background: linear-gradient(90deg, #4f1db3, #7b2fff, #4f1db3) !important;
   color: #fff !important;
-}
-
-@keyframes annGrad {
-  0%   { background-position: 0% }
-  100% { background-position: 200% }
 }
 
 .announcement-bar__message,
